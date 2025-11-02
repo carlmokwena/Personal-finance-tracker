@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Finance Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Personal Finance Tracker</h1>
+    <p>Income: <span class="income">R{{ income }}</span> | Expenses: <span class="expenses">R{{ expenses }}</span></p>
+    <a href="{{ url_for('add') }}" class="btn">Add Transaction</a>
+
+    <canvas id="myChart"></canvas>
+
+    <h2>All Transactions</h2>
+    <ul>
+      {% for t in transactions %}
+      <li>{{ t[0] }} | {{ t[1] }} | R{{ t[2] }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const categories = {{ transactions | map(attribute=1) | list | safe }};
+    const amounts = {{ transactions | map(attribute=2) | list | safe }};
+    const types = {{ transactions | map(attribute=0) | list | safe }};
+
+    const colors = types.map(t => t === 'Income' ? '#00d4ff' : '#ff4d4d');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: categories,
+        datasets: [{
+          label: 'Amount',
+          data: amounts,
+          backgroundColor: colors
+        }]
+      },
+      options: { responsive: true }
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Finance Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Personal Finance Tracker</h1>
+    <p>Income: <span class="income">R{{ income }}</span> | Expenses: <span class="expenses">R{{ expenses }}</span></p>
+    <a href="{{ url_for('add') }}" class="btn">Add Transaction</a>
+
+    <canvas id="myChart"></canvas>
+
+    <h2>All Transactions</h2>
+    <ul>
+      {% for t in transactions %}
+      <li>{{ t[0] }} | {{ t[1] }} | R{{ t[2] }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const categories = {{ transactions | map(attribute=1) | list | safe }};
+    const amounts = {{ transactions | map(attribute=2) | list | safe }};
+    const types = {{ transactions | map(attribute=0) | list | safe }};
+
+    const colors = types.map(t => t === 'Income' ? '#00d4ff' : '#ff4d4d');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: categories,
+        datasets: [{
+          label: 'Amount',
+          data: amounts,
+          backgroundColor: colors
+        }]
+      },
+      options: { responsive: true }
+    });
+  </script>
+</body>
+</html>
